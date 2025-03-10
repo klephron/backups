@@ -11,10 +11,13 @@ _load/%:
 	ARCHIVE_REL=$(patsubst _load/%,%,$@); \
 	ARCHIVE_DEST="$$(dirname "$(BK_ROOT)/$${ARCHIVE_REL}")"; \
 	mkdir -p "$${ARCHIVE_DEST}"; \
-	cp -r "/$${ARCHIVE_REL}" "$${ARCHIVE_DEST}"
+	rsync -avzh --ignore-errors "/$${ARCHIVE_REL}" "$${ARCHIVE_DEST}"
 
+# maybe preserve +x for files?
 _chown:
 	chown -R "$(SUDO_USER):$(SUDO_USER)" "$(BK_ROOT)"
+	chmod -R 755 "$(BK_ROOT)"
+	find "$(BK_ROOT)" -type f -exec chmod u+rw {} \;
 
 load:
 	@$(MAKE) _load/etc
