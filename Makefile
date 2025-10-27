@@ -2,7 +2,7 @@ BK_PREFIX := backup
 BK_ROOT := $(CURDIR)/$(BK_PREFIX)
 SUDO_USER ?= $(shell whoami)
 
-.DEFAULT_GOAL := archive
+.DEFAULT_GOAL := all
 
 # don't print $(MAKE) directory by default
 MAKEFLAGS += $(if $(value VERBOSE),,--no-print-directory)
@@ -34,3 +34,8 @@ archive:
 clean:
 	rm -rf *.{tar,tar.gz}
 	rm -rf $(BK_ROOT)
+
+all:
+	@$(MAKE) clean
+	@$(MAKE) load
+	@$(MAKE) archive

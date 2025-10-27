@@ -1,14 +1,20 @@
 # backup
 
-## Load backup to `backup/`
+Backup scripts.
+
+## Clean & Load & Archive
+
+Do `all`:
 
 ```sh
-sudo make load
+sudo make
 ```
 
-## Create archive from backup
+Each step explicitly:
 
 ```sh
+make clean
+sudo make load
 make archive
 ```
 
@@ -17,11 +23,5 @@ make archive
 E.g. cloud:
 
 ```sh
-rclone copy -P ./backup_* gdrive.zubrailx:backups/devices/$(hostname)
-```
-
-## Clean backup and archives
-
-```sh
-make clean
+rclone copy -P ./backup_* gdrive.klephron:backups/devices/$(hostname)
 ```
