@@ -9,9 +9,14 @@ MAKEFLAGS += $(if $(value VERBOSE),,--no-print-directory)
 
 _load/%:
 	ARCHIVE_REL=$(patsubst _load/%,%,$@); \
+	ARCHIVE_SRC="/$${ARCHIVE_REL}"; \
 	ARCHIVE_DEST="$$(dirname "$(BK_ROOT)/$${ARCHIVE_REL}")"; \
+	if [ ! -e "$${ARCHIVE_SRC}" ]; then \
+		echo "skip: source does not exist: $${ARCHIVE_SRC}"; \
+		exit 0; \
+	fi; \
 	mkdir -p "$${ARCHIVE_DEST}"; \
-	rsync -aAX --numeric-ids --whole-file --info=progress2 "/$${ARCHIVE_REL}" "$${ARCHIVE_DEST}"
+	rsync -aAX --numeric-ids --whole-file --info=progress2 "$${ARCHIVE_SRC}" "$${ARCHIVE_DEST}"
 
 # maybe preserve +x for files?
 _chown:
