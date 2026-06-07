@@ -11,7 +11,7 @@ _load/%:
 	ARCHIVE_REL=$(patsubst _load/%,%,$@); \
 	ARCHIVE_DEST="$$(dirname "$(BK_ROOT)/$${ARCHIVE_REL}")"; \
 	mkdir -p "$${ARCHIVE_DEST}"; \
-	rsync -avzh --ignore-errors "/$${ARCHIVE_REL}" "$${ARCHIVE_DEST}"
+	rsync -aAX --numeric-ids --whole-file --info=progress2 "/$${ARCHIVE_REL}" "$${ARCHIVE_DEST}"
 
 # maybe preserve +x for files?
 _chown:
